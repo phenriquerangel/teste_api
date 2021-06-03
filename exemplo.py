@@ -68,8 +68,8 @@ def numeros():
 @app.route('/lang', methods=['POST'])
 def addone():
     
-    language = request.json['name']
-    print (language)
+    language = {'name': request.json['name']}
+    #print (language)
     languages.append(language)
     return jsonify({'languages': languages})
 
