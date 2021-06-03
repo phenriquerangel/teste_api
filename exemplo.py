@@ -1,8 +1,6 @@
-#import requets
-import flask
-from flask import request, jsonify
+from flask import Flask ,jsonify, request
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
 books= [
@@ -23,41 +21,56 @@ books= [
      'year_published': '1975'}  
 ]
 
-@app.route('/',methods=['GET'])
-def home():
-    return " <h1>Dudinha ta ensinando nós</h1> <p>Vasco é sempre vice do meu Mengo!</p>"
 
-@app.route('/api/v1/resources/books/all',methods=['GET'])
-def api_all():
-    return jsonify(books)
-#@app.route('/titulo',methods=['GET'])
-#def numeros():
-#    return "<h1> Flamengo tem 30 titulos</h1>"
+languages = [
+    {'name': 'Javascript'},
+    {'name': 'Php'},
+    {'name': 'Python'}
+]
 
-@app.route('/api/v1/resources/books',methods=['GET'])
-def id_all():
-    if 'id' in request.args:
-        id = int(request.args['id'])
-    else:
-        return "Erro, id não encontrado"
+#@app.route('/',methods=['GET'])
+#def home():
+#    return " <h1>Dudinha ta ensinando nós</h1> <p>Vasco é sempre vice do meu Mengo!</p>"
+#
+#@app.route('/api/v1/resources/books/all',methods=['GET'])
+#def api_all():
+#    return jsonify(books)
+@app.route('/titulo',methods=['GET'])
+def numeros():
+    return "<h1> Flamengo tem 30 titulos</h1>"
 
-    results = []
-    for book in books:
-        if book['id'] == id:
-            results.append(book)
-    return jsonify(results)
+#@app.route('/api/v1/resources/books',methods=['GET'])
+#def id_all():
+#    if 'id' in request.args:
+#        id = int(request.args['id'])
+#    else:
+#        return "Erro, id não encontrado"
+#
+#    results = []
+#    for book in books:
+#        if book['id'] == id:
+#            results.append(book)
+#    return jsonify(results)
 
 
-@app.route('/api/v1/resources/books/year/',methods=['GET'])
-def year_all():
-    if 'year_published' in request.args:
-        year = request.args['year_published']
-    else:
-        return "Erro, Ano não encontrado"
-    results = []
-    for book in books:
-        if book['year_published'] == year:
-            results.append(book)
-    return jsonify(results)
+#@app.route('/api/v1/resources/books/year/',methods=['GET'])
+#def year_all():
+#    if 'year_published' in request.args:
+#        year = request.args['year_published']
+#    else:
+#        return "Erro, Ano não encontrado"
+#    results = []
+#    for book in books:
+#        if book['year_published'] == year:
+#            results.append(book)
+#    return jsonify(results)
 
-app.run()
+@app.route('/lang', methods=['POST'])
+def addone():
+    
+    language = request.json['name']
+    print (language)
+    languages.append(language)
+    return jsonify({'languages': languages})
+
+app.run(port=8000)
